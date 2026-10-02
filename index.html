@@ -1,0 +1,1543 @@
+<!DOCTYPE html>
+<html lang="zh-TW" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>The Glencairn Vault - 高級威士忌與品酒隨身鑑賞筆記</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Luxury Editorial Fonts: Cinzel & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            serif: ['Cinzel', 'Playfair Display', 'serif'],
+          },
+          colors: {
+            vault: {
+              950: '#09080a',
+              900: '#111014',
+              850: '#16151a',
+              800: '#1e1c22',
+              750: '#27252c',
+              700: '#322f38',
+            },
+            amber: {
+              400: '#fbbf24',
+              500: '#f59e0b',
+              600: '#d97706',
+              700: '#b45309',
+              800: '#92400e',
+            },
+            cask: {
+              500: '#c59b6d',
+              600: '#a3794d',
+              700: '#7c5731',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Speakeasy subtle warm ambient lighting */
+    body {
+      background-color: #0c0b0e;
+      background-image: 
+        radial-gradient(circle at 15% 10%, rgba(217, 119, 6, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 85% 75%, rgba(180, 83, 9, 0.06) 0%, transparent 45%);
+      color: #e5e5e7;
+    }
+
+    /* Clean custom scrollbar */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    /* Range slider custom styling for high-end gold amber thumb */
+    input[type=range] {
+      -webkit-appearance: none;
+      appearance: none;
+      background: #27252c;
+      border-radius: 9999px;
+    }
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #fbbf24, #d97706);
+      cursor: pointer;
+      box-shadow: 0 0 10px rgba(245, 158, 11, 0.5);
+      border: 2px solid #111014;
+      transition: transform 0.15s ease;
+    }
+    input[type=range]::-webkit-slider-thumb:hover {
+      transform: scale(1.15);
+    }
+    
+    /* Subtle glowing pulsation for AI processing */
+    @keyframes amberPulse {
+      0%, 100% { border-color: rgba(217, 119, 6, 0.3); box-shadow: 0 0 0 0 rgba(217, 119, 6, 0.15); }
+      50% { border-color: rgba(251, 191, 36, 0.8); box-shadow: 0 0 15px 2px rgba(245, 158, 11, 0.35); }
+    }
+    .amber-pulse {
+      animation: amberPulse 2s infinite ease-in-out;
+    }
+  </style>
+</head>
+
+<body class="font-sans antialiased min-h-screen pb-24 md:pb-12 selection:bg-amber-600 selection:text-white">
+
+  <!-- Header: Luxury Speakeasy Bar Vibe -->
+  <header class="sticky top-0 z-30 bg-vault-900/90 backdrop-blur-md border-b border-amber-500/15 shadow-2xl">
+    <div class="max-w-5xl mx-auto px-4 py-3.5 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500/20 to-vault-800 border border-amber-500/40 flex items-center justify-center text-xl shadow-inner">
+          🥃
+        </div>
+        <div>
+          <div class="flex items-center space-x-2">
+            <h1 class="font-serif text-lg md:text-xl font-bold tracking-wider text-amber-200">THE GLENCAIRN</h1>
+            <span class="text-[9px] uppercase tracking-widest px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-400 border border-amber-500/30">Vault</span>
+          </div>
+          <p class="text-[10px] text-stone-400 tracking-wider">WHISKY &amp; FINE WINE TASTING ARCHIVE</p>
+        </div>
+      </div>
+
+      <div class="flex items-center space-x-2">
+        <button onclick="openNoteModal()" class="inline-flex items-center space-x-1.5 bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-500 hover:to-amber-600 active:scale-95 text-stone-950 font-semibold px-4 py-2 rounded-full text-xs shadow-lg shadow-amber-900/30 transition-all duration-200 border border-amber-400/40">
+          <svg class="w-3.5 h-3.5 stroke-[2.5]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"></path></svg>
+          <span class="tracking-wide">新增品飲筆記</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Category Filter Bar (Whisky first!) -->
+    <div class="border-t border-vault-800/80 bg-vault-950/60 px-4 py-2">
+      <div class="max-w-5xl mx-auto flex items-center space-x-2 overflow-x-auto no-scrollbar" id="categoryFilterContainer">
+        <!-- Injected via JavaScript -->
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-5xl mx-auto px-4 pt-5">
+    <!-- Controls Bar -->
+    <div class="flex flex-col sm:flex-row gap-3 mb-6 items-stretch sm:items-center justify-between">
+      <div class="relative flex-1">
+        <svg class="w-4 h-4 absolute left-3.5 top-3 text-amber-500/60" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+        <input 
+          type="text" 
+          id="searchInput" 
+          oninput="handleSearch(this.value)" 
+          placeholder="搜尋威士忌廠牌、桶型(雪莉/波本)、產區、ABV 或風味標籤..." 
+          class="w-full pl-10 pr-4 py-2.5 bg-vault-850/90 text-stone-200 placeholder-stone-500 rounded-xl border border-vault-700/70 text-xs focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 transition-all shadow-inner"
+        >
+      </div>
+      <div class="flex items-center justify-between sm:justify-end gap-3 text-xs text-stone-400 px-1">
+        <span id="noteCountBadge" class="bg-vault-800 text-amber-300/90 border border-amber-500/20 px-3 py-1.5 rounded-lg font-mono text-[11px]">
+          共 0 款鑑賞紀錄
+        </span>
+        <div class="flex items-center space-x-1.5">
+          <!-- Hidden JSON file input -->
+          <input type="file" id="importJsonInput" accept=".json,application/json" class="hidden" onchange="handleImportJSON(event)">
+          <button onclick="document.getElementById('importJsonInput').click()" class="hover:text-amber-300 text-stone-400 transition-colors flex items-center space-x-1 py-1.5 px-2.5 rounded-lg hover:bg-vault-800 border border-vault-700/60 hover:border-amber-500/30">
+            <span>📥 匯入備份</span>
+          </button>
+          <button onclick="exportJSON()" class="hover:text-amber-300 text-stone-400 transition-colors flex items-center space-x-1 py-1.5 px-2.5 rounded-lg hover:bg-vault-800 border border-vault-700/60 hover:border-amber-500/30">
+            <span>📦 匯出備份</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Wine / Whisky Cards Grid -->
+    <div id="notesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+      <!-- Injected via JavaScript -->
+    </div>
+
+    <!-- Empty State -->
+    <div id="emptyState" class="hidden text-center py-20 px-4 border border-dashed border-vault-750 rounded-2xl bg-vault-900/40">
+      <div class="w-16 h-16 mx-auto mb-3 rounded-full bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-3xl">
+        🥃
+      </div>
+      <h3 class="font-serif text-base font-semibold text-stone-300 mb-1">典藏庫中尚無品飲筆記</h3>
+      <p class="text-stone-400 text-xs max-w-sm mx-auto mb-5 leading-relaxed">點選「新增品飲筆記」，記錄您今日酒杯中的麥芽香、橡木桶與泥煤層次。</p>
+      <button onclick="openNoteModal()" class="bg-gradient-to-r from-amber-600 to-amber-700 text-stone-950 font-semibold text-xs px-5 py-2.5 rounded-full shadow-lg hover:from-amber-500 hover:to-amber-600 transition">
+        記錄第一支品飲
+      </button>
+    </div>
+  </main>
+
+  <!-- Note Edit/Create Modal (Drawer on Mobile, Dialog on Desktop) -->
+  <div id="noteModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden overflow-y-auto">
+    <div class="min-h-full flex items-end sm:items-center justify-center p-0 sm:p-4">
+      <div class="bg-vault-900 w-full max-w-2xl rounded-t-3xl sm:rounded-2xl shadow-2xl border border-amber-500/25 flex flex-col max-h-[92vh] sm:max-h-[88vh] text-stone-200">
+        
+        <!-- Modal Header -->
+        <div class="p-4 sm:p-5 border-b border-vault-750 flex items-center justify-between sticky top-0 bg-vault-900 z-10 rounded-t-3xl sm:rounded-2xl">
+          <div class="flex items-center space-x-2.5">
+            <span class="text-2xl">🥃</span>
+            <div>
+              <h3 id="modalTitle" class="font-serif font-bold text-base sm:text-lg text-amber-200 tracking-wide">記錄品飲筆記</h3>
+              <p class="text-[11px] text-stone-400">登錄酒款規格、過桶風味與感官指標</p>
+            </div>
+          </div>
+          <button onclick="closeNoteModal()" class="text-stone-400 hover:text-stone-200 p-2 rounded-lg hover:bg-vault-800 transition">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+          </button>
+        </div>
+
+        <div class="p-5 overflow-y-auto space-y-5 text-xs sm:text-sm">
+          <input type="hidden" id="editNoteId" value="">
+
+          <!-- Section 1: Basic Information -->
+          <div class="space-y-3.5">
+            <div class="flex items-center justify-between">
+              <label class="block text-[11px] font-bold uppercase tracking-wider text-amber-400/90 font-mono">1. 酒款規格與總評分</label>
+              <!-- Star Rating Input -->
+              <div class="flex items-center space-x-1 text-base cursor-pointer" id="starRatingInput">
+                <!-- Injected via JavaScript -->
+              </div>
+            </div>
+
+            <div>
+              <label class="text-[11px] text-stone-400 block mb-1">酒款全名 / 廠牌 *</label>
+              <input type="text" id="wineName" required placeholder="如：The Macallan 18yo Sherry Oak 或 Lagavulin 16yo" class="w-full px-3.5 py-2.5 bg-vault-850 border border-vault-700 rounded-xl focus:border-amber-500 focus:ring-1 focus:ring-amber-500 text-stone-200 outline-none text-xs sm:text-sm transition">
+            </div>
+
+            <!-- AI & Photo Action Box -->
+            <div class="bg-gradient-to-r from-vault-850 to-vault-800 border border-amber-500/25 p-3 rounded-2xl flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+              <div class="flex items-center space-x-2.5">
+                <div class="w-8 h-8 rounded-lg bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-sm">
+                  ✨
+                </div>
+                <div>
+                  <p class="text-xs font-semibold text-amber-200">Gemini 智能品鑑與照片</p>
+                  <p class="text-[10px] text-stone-400">聯網查詢蒸餾廠工藝、用桶特色或由 AI 繪製寫真</p>
+                </div>
+              </div>
+              <div class="flex flex-wrap items-center gap-2">
+                <!-- Hidden file input for photo upload & camera capture -->
+                <input type="file" id="winePhotoInput" accept="image/*" class="hidden" onchange="handlePhotoUpload(event)">
+                <button type="button" onclick="document.getElementById('winePhotoInput').click()" class="flex-1 sm:flex-none inline-flex items-center justify-center space-x-1.5 bg-vault-750 hover:bg-vault-700 text-stone-200 border border-vault-600 px-3 py-1.5 rounded-xl text-xs font-medium active:scale-95 transition">
+                  <span>📷 上傳/拍照</span>
+                </button>
+                <button type="button" id="btnAiEnrich" onclick="enrichWineDetailsWithAI()" class="flex-1 sm:flex-none inline-flex items-center justify-center space-x-1.5 bg-vault-750 hover:bg-vault-700 text-amber-300 border border-amber-500/30 px-3 py-1.5 rounded-xl text-xs font-medium active:scale-95 transition">
+                  <span id="aiEnrichSpinner" class="hidden animate-spin">⟳</span>
+                  <span id="aiEnrichText">🌐 聯網查酒廠</span>
+                </button>
+                <button type="button" id="btnAiImage" onclick="generateWinePhoto()" class="flex-1 sm:flex-none inline-flex items-center justify-center space-x-1.5 bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-500 hover:to-amber-600 text-stone-950 font-semibold px-3 py-1.5 rounded-xl text-xs active:scale-95 transition shadow">
+                  <span id="aiImageSpinner" class="hidden animate-spin">⟳</span>
+                  <span id="aiImageText">🎨 AI 生成照片</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Photo Preview Area -->
+            <div id="imagePreviewContainer" class="hidden border border-vault-700 rounded-xl p-2.5 bg-vault-850 flex items-center justify-between gap-3">
+              <div class="flex items-center space-x-3">
+                <img id="winePhotoPreview" src="" alt="酒品照片" class="w-14 h-16 object-cover rounded-lg border border-vault-700 shadow-md">
+                <div>
+                  <p class="text-xs font-medium text-amber-200" id="photoStatusLabel">已綁定照片</p>
+                  <p class="text-[10px] text-stone-400">已儲存為此篇品飲封面</p>
+                </div>
+              </div>
+              <button type="button" onclick="removeWinePhoto()" class="text-xs text-red-400 hover:text-red-300 px-2 py-1 hover:bg-red-950/40 rounded transition">移除</button>
+            </div>
+
+            <!-- Categories & Vintage -->
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="text-[11px] text-stone-400 block mb-1">品類</label>
+                <select id="wineType" onchange="handleWineTypeChange(this.value)" class="w-full px-3 py-2 bg-vault-850 border border-vault-700 rounded-xl focus:border-amber-500 text-stone-200 outline-none text-xs">
+                  <option value="威士忌" selected>🥃 威士忌 (Whisky)</option>
+                  <option value="紅酒">🍷 紅葡萄酒 (Red Wine)</option>
+                  <option value="白酒">🥂 白葡萄酒 (White Wine)</option>
+                  <option value="氣泡酒">🍾 氣泡酒/香檳 (Sparkling)</option>
+                  <option value="粉紅酒">🌸 粉紅酒 (Rosé)</option>
+                  <option value="白蘭地/干邑">🍇 干邑/白蘭地 (Cognac)</option>
+                  <option value="其他">🍸 其他酒類 (Other)</option>
+                </select>
+              </div>
+              <div>
+                <label class="text-[11px] text-stone-400 block mb-1" id="lblVintage">年份 / 年份標示</label>
+                <input type="text" id="wineVintage" placeholder="如 12年、18年、2015 或 NAS" class="w-full px-3 py-2 bg-vault-850 border border-vault-700 rounded-xl focus:border-amber-500 text-stone-200 outline-none text-xs">
+              </div>
+            </div>
+
+            <!-- Region & Cask / Varietal -->
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="text-[11px] text-stone-400 block mb-1" id="lblRegion">蒸餾廠 / 產區 (Distillery)</label>
+                <input type="text" id="wineRegion" placeholder="如 Speyside, Islay, Highlands" class="w-full px-3 py-2 bg-vault-850 border border-vault-700 rounded-xl focus:border-amber-500 text-stone-200 outline-none text-xs">
+              </div>
+              <div>
+                <label class="text-[11px] text-stone-400 block mb-1" id="lblGrape">用桶類型 / 熟成工藝 (Cask Type)</label>
+                <input type="text" id="wineGrape" placeholder="如 Sherry Oak, Bourbon Cask, Oloroso" class="w-full px-3 py-2 bg-vault-850 border border-vault-700 rounded-xl focus:border-amber-500 text-stone-200 outline-none text-xs">
+              </div>
+            </div>
+
+            <!-- Whisky Specialized Fields: ABV & Batch -->
+            <div id="whiskyExtraFields" class="grid grid-cols-2 gap-3 p-3 bg-amber-950/20 border border-amber-500/20 rounded-xl">
+              <div>
+                <label class="text-[11px] text-amber-300 font-medium block mb-1">酒精濃度 (ABV %)</label>
+                <input type="text" id="wineAbv" placeholder="如 43%、46% 或 58.2% 原桶強度" class="w-full px-3 py-1.5 text-xs bg-vault-850 border border-vault-700 rounded-lg text-stone-200 focus:border-amber-500 outline-none">
+              </div>
+              <div>
+                <label class="text-[11px] text-amber-300 font-medium block mb-1">裝瓶批次 / 單桶號 (Batch/Cask No.)</label>
+                <input type="text" id="wineBatch" placeholder="如 Batch 015 或 Cask #1289" class="w-full px-3 py-1.5 text-xs bg-vault-850 border border-vault-700 rounded-lg text-stone-200 focus:border-amber-500 outline-none">
+              </div>
+            </div>
+
+            <!-- Distillery or Winery Background -->
+            <div>
+              <div class="flex justify-between items-center mb-1">
+                <label class="text-[11px] text-stone-400" id="lblStory">蒸餾廠歷史與用桶工藝簡介</label>
+                <span class="text-[10px] text-amber-400/80 bg-amber-500/10 px-1.5 py-0.5 rounded border border-amber-500/20">支援 AI 聯網查詢</span>
+              </div>
+              <textarea id="wineryStory" rows="3" placeholder="例如：蒸餾廠創立於1824年，採用傳統小頸天鵝蒸餾器與珍稀西班牙雪莉橡木桶陳年..." class="w-full px-3 py-2 bg-vault-850 border border-vault-700 rounded-xl focus:border-amber-500 text-stone-200 outline-none text-xs leading-relaxed"></textarea>
+              <div id="aiSourcesArea" class="hidden mt-1 text-[10px] text-stone-400">
+                <span class="font-medium text-amber-300">參考來源：</span>
+                <span id="aiSourcesList" class="space-x-1.5"></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Section 2: Sensory Profile Quantization -->
+          <div class="pt-3 border-t border-vault-750 space-y-3">
+            <div class="flex items-center justify-between">
+              <label class="block text-[11px] font-bold uppercase tracking-wider text-amber-400/90 font-mono">2. 感官結構量化 (1 - 5)</label>
+              <span id="sensoryModeBadge" class="text-[10px] font-semibold text-amber-300 bg-amber-500/15 px-2.5 py-0.5 rounded-full border border-amber-500/40">
+                🥃 威士忌品鑑專屬模式
+              </span>
+            </div>
+            
+            <div class="space-y-3.5 bg-vault-850/80 p-3.5 rounded-2xl border border-vault-750">
+              <!-- Dimension 1 -->
+              <div>
+                <div class="flex justify-between text-xs font-medium text-stone-300 mb-1">
+                  <span id="s1Title">甜潤感 / 麥芽甜 (Sweetness &amp; Malt)</span>
+                  <span id="sweetnessVal" class="text-amber-400 font-mono font-bold">3</span>
+                </div>
+                <input type="range" id="wineSweetness" min="1" max="5" value="3" step="1" class="w-full h-1.5" oninput="document.getElementById('sweetnessVal').innerText=this.value">
+                <div class="flex justify-between text-[10px] text-stone-500 mt-1">
+                  <span id="s1DescMin">極乾 / 清冽 Dry</span>
+                  <span id="s1DescMid">適中平衡 Balanced</span>
+                  <span id="s1DescMax">濃郁甘甜 Rich Sweet</span>
+                </div>
+              </div>
+
+              <!-- Dimension 2 -->
+              <div>
+                <div class="flex justify-between text-xs font-medium text-stone-300 mb-1">
+                  <span id="s2Title">泥煤 / 煙燻度 (Peat &amp; Smoke)</span>
+                  <span id="acidityVal" class="text-amber-400 font-mono font-bold">1</span>
+                </div>
+                <input type="range" id="wineAcidity" min="1" max="5" value="1" step="1" class="w-full h-1.5" oninput="document.getElementById('acidityVal').innerText=this.value">
+                <div class="flex justify-between text-[10px] text-stone-500 mt-1">
+                  <span id="s2DescMin">無泥煤 Unpeated</span>
+                  <span id="s2DescMid">中度煙燻 Medium Peat</span>
+                  <span id="s2DescMax">重度泥煤 Heavy Peat</span>
+                </div>
+              </div>
+
+              <!-- Dimension 3 -->
+              <div>
+                <div class="flex justify-between text-xs font-medium text-stone-300 mb-1">
+                  <span id="s3Title">辛香感 / 酒精衝擊 (Spice &amp; Kick)</span>
+                  <span id="tanninVal" class="text-amber-400 font-mono font-bold">3</span>
+                </div>
+                <input type="range" id="wineTannin" min="1" max="5" value="3" step="1" class="w-full h-1.5" oninput="document.getElementById('tanninVal').innerText=this.value">
+                <div class="flex justify-between text-[10px] text-stone-500 mt-1">
+                  <span id="s3DescMin">絲滑溫和 Smooth</span>
+                  <span id="s3DescMid">微辛溫暖 Warming</span>
+                  <span id="s3DescMax">辛香強勁 Bold &amp; Punchy</span>
+                </div>
+              </div>
+
+              <!-- Dimension 4 -->
+              <div>
+                <div class="flex justify-between text-xs font-medium text-stone-300 mb-1">
+                  <span id="s4Title">油脂感 / 酒體厚度 (Mouthfeel &amp; Body)</span>
+                  <span id="bodyVal" class="text-amber-400 font-mono font-bold">4</span>
+                </div>
+                <input type="range" id="wineBody" min="1" max="5" value="4" step="1" class="w-full h-1.5" oninput="document.getElementById('bodyVal').innerText=this.value">
+                <div class="flex justify-between text-[10px] text-stone-500 mt-1">
+                  <span id="s4DescMin">輕盈爽口 Light</span>
+                  <span id="s4DescMid">飽滿適中 Medium</span>
+                  <span id="s4DescMax">油潤醇厚 Rich &amp; Oily</span>
+                </div>
+              </div>
+
+              <!-- Dimension 5 -->
+              <div>
+                <div class="flex justify-between text-xs font-medium text-stone-300 mb-1">
+                  <span id="s5Title">餘韻長度 (Finish Length)</span>
+                  <span id="finishVal" class="text-amber-400 font-mono font-bold">4</span>
+                </div>
+                <input type="range" id="wineFinish" min="1" max="5" value="4" step="1" class="w-full h-1.5" oninput="document.getElementById('finishVal').innerText=this.value">
+                <div class="flex justify-between text-[10px] text-stone-500 mt-1">
+                  <span id="s5DescMin">短促清澈 Short</span>
+                  <span id="s5DescMid">適中延綿 Medium</span>
+                  <span id="s5DescMax">綿長悠遠 Lingering</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Section 3: Flavor Tags -->
+          <div class="pt-3 border-t border-vault-750 space-y-2">
+            <div class="flex justify-between items-center">
+              <label class="block text-[11px] font-bold uppercase tracking-wider text-amber-400/90 font-mono">3. 風味特徵標籤 (快速點選)</label>
+              <span class="text-[11px] text-stone-400">已選 <span id="selectedTagCount" class="text-amber-400 font-mono">0</span> 個</span>
+            </div>
+            <div id="flavorTagSelector" class="flex flex-wrap gap-1.5 max-h-44 overflow-y-auto pr-1">
+              <!-- Injected via JavaScript -->
+            </div>
+          </div>
+
+          <!-- Section 4: Tasting Notes and Food Pairing -->
+          <div class="pt-3 border-t border-vault-750 space-y-3">
+            <label class="block text-[11px] font-bold uppercase tracking-wider text-amber-400/90 font-mono">4. 品飲心得與搭餐建議</label>
+            <div>
+              <label class="text-[11px] text-stone-400 block mb-1">自由隨筆 (聞香、口感轉化、尾韻印象)</label>
+              <textarea id="wineNotes" rows="3" placeholder="開瓶初聞充滿濃郁乾果與太妃糖香氣，滴入兩滴水後綻放石楠花香與細緻肉桂辛香..." class="w-full px-3 py-2 bg-vault-850 border border-vault-700 rounded-xl focus:border-amber-500 text-stone-200 outline-none text-xs leading-relaxed"></textarea>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="text-[11px] text-stone-400 block mb-1">品飲搭配 / 佐餐</label>
+                <input type="text" id="winePairing" placeholder="如：純飲、炭烤黑牛、煙燻起司、72%黑巧" class="w-full px-3 py-2 bg-vault-850 border border-vault-700 rounded-xl focus:border-amber-500 text-stone-200 outline-none text-xs">
+              </div>
+              <div>
+                <label class="text-[11px] text-stone-400 block mb-1">品嚐地點 / 購入價格</label>
+                <input type="text" id="winePrice" placeholder="如：Bar Mood / NT$ 2,800" class="w-full px-3 py-2 bg-vault-850 border border-vault-700 rounded-xl focus:border-amber-500 text-stone-200 outline-none text-xs">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal Footer -->
+        <div class="p-4 bg-vault-950/80 border-t border-vault-750 flex items-center justify-end space-x-2.5 rounded-b-3xl sm:rounded-b-2xl">
+          <button type="button" onclick="closeNoteModal()" class="px-4 py-2 border border-vault-700 text-stone-400 hover:text-stone-200 hover:bg-vault-800 rounded-xl text-xs font-medium transition">取消</button>
+          <button type="button" onclick="saveWineNote()" class="px-5 py-2 bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-500 hover:to-amber-600 text-stone-950 font-semibold rounded-xl text-xs shadow-lg shadow-amber-950 transition">儲存典藏筆記</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Import Backup Confirmation Modal -->
+  <div id="importModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden flex items-center justify-center p-4">
+    <div class="bg-vault-900 w-full max-w-md rounded-2xl shadow-2xl border border-amber-500/30 p-5 text-stone-200">
+      <div class="flex items-center space-x-3 mb-3">
+        <div class="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-xl">
+          📦
+        </div>
+        <div>
+          <h4 class="font-serif font-bold text-amber-200 text-base">匯入典藏備份檔</h4>
+          <p class="text-xs text-stone-400" id="importFileInfo">讀取到 0 篇品飲筆記</p>
+        </div>
+      </div>
+      <p class="text-xs text-stone-300 mb-5 leading-relaxed bg-vault-850 p-3 rounded-xl border border-vault-750">
+        您可以選擇將備份筆記<strong class="text-amber-300">「合併加入」</strong>現有資料中，或是以備份檔<strong class="text-amber-400">「完全取代」</strong>當前典藏庫。
+      </p>
+      <div class="flex flex-col sm:flex-row gap-2.5 justify-end">
+        <button onclick="closeImportModal()" class="px-3.5 py-2 text-xs text-stone-400 hover:text-stone-200 hover:bg-vault-800 rounded-xl transition border border-vault-750">
+          取消
+        </button>
+        <button onclick="executeImport('merge')" class="px-3.5 py-2 text-xs font-semibold bg-vault-750 hover:bg-vault-700 text-amber-300 border border-amber-500/30 rounded-xl transition">
+          ⊕ 合併至現有典藏
+        </button>
+        <button onclick="executeImport('replace')" class="px-3.5 py-2 text-xs font-semibold bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-500 hover:to-amber-600 text-stone-950 rounded-xl transition shadow">
+          ⟲ 完全取代覆蓋
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 bg-vault-800/95 border border-amber-500/30 text-stone-200 text-xs px-4 py-2.5 rounded-full shadow-2xl opacity-0 transition-opacity duration-300 pointer-events-none z-50 flex items-center space-x-2 backdrop-blur-md">
+    <span id="toastIcon" class="text-base">🥃</span>
+    <span id="toastMessage">操作完成</span>
+  </div>
+
+  <!-- Mobile Bottom Action Floating Button -->
+  <div class="md:hidden fixed bottom-6 right-5 z-40">
+    <button onclick="openNoteModal()" class="w-13 h-13 bg-gradient-to-br from-amber-500 to-amber-700 text-stone-950 rounded-full p-3.5 shadow-2xl shadow-amber-950/80 border border-amber-400/50 flex items-center justify-center active:scale-95 transition-transform">
+      <svg class="w-6 h-6 stroke-[2.5]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"></path></svg>
+    </button>
+  </div>
+
+  <script>
+    const STORAGE_KEY = 'glencairn_whisky_vault_data';
+    const API_KEY = ""; // Canvas runtime automatically supplies key
+
+    // Flavor tags: Whisky prioritized
+    const WHISKY_FLAVOR_TAGS = [
+      "香草", "焦糖太妃", "金黃蜂蜜", "波本橡木", "雪莉乾果", 
+      "黑巧克力", "烘焙咖啡", "肉桂辛香", "泥煤煙燻", "艾雷海鹽", 
+      "石楠花蜜", "煙草皮革", "堅果杏仁", "生薑丁香", "麥芽甜香", 
+      "奶油酥餅", "成熟無花果", "黑櫻桃", "青蘋果", "柑橘橙皮", 
+      "熱帶鳳梨", "白胡椒", "雪松木香", "烤吐司", "營火灰燼"
+    ];
+
+    const WINE_FLAVOR_TAGS = [
+      "黑櫻桃", "黑醋栗", "覆盆子", "藍莓", "草莓", 
+      "柑橘檸檬", "青蘋果", "成熟白桃", "熱帶鳳梨", "百香果", 
+      "法國橡木", "香草豆莢", "雪松木", "烘焙咖啡", "黑巧克力", 
+      "紫羅蘭", "白花香", "黑胡椒", "薄荷鼠尾草", "煙草雪茄", 
+      "皮革", "濕潤泥土", "燧石礦物", "奶油酵母", "肉豆蔻"
+    ];
+
+    // Priority category navigation
+    const CATEGORIES = ["全部", "威士忌", "紅酒", "白酒", "氣泡酒", "粉紅酒", "白蘭地/干邑", "其他"];
+
+    let currentCategory = "全部";
+    let searchQuery = "";
+    let selectedRating = 5;
+    let selectedTags = new Set();
+    let currentPhotoUrl = "";
+    let currentSources = [];
+    let wineNotes = [];
+    let pendingImportNotes = [];
+
+    // Curated Speakeasy Samples (Whisky Front & Center)
+    const INITIAL_SAMPLES = [
+      {
+        id: "vault-whisky-01",
+        name: "The Macallan 18 Years Old Sherry Oak",
+        vintage: "18年",
+        type: "威士忌",
+        region: "Speyside, Scotland",
+        grape: "西班牙赫雷斯初填 Oloroso 雪莉桶熟成",
+        abv: "43.0%",
+        batch: "2023 Release",
+        rating: 5,
+        sweetness: 4,
+        acidity: 1, // Peat = 1 (Unpeated)
+        tannin: 3,  // Spice/Kick = 3
+        body: 5,    // Mouthfeel = 5
+        finish: 5,  // Finish = 5
+        tags: ["雪莉乾果", "生薑丁香", "焦糖太妃", "成熟無花果", "黑巧克力", "煙草皮革"],
+        wineryStory: "麥卡倫堅持嚴選西班牙赫雷斯手工訂製的 Oloroso 雪莉橡木桶，酒液呈現純天然深紅木色澤，是斯佩賽產區極致奢華豐潤的標竿象徵。",
+        notes: "深琥珀紅木色。聞香帶有生薑、黑櫻桃葡萄乾以及肉桂香料氣息。入口醇厚油潤，太妃糖甜感與雪莉果乾在口中層層綻放，尾韻溫暖綿長，帶有一絲煙燻橡木悠遠氣息。",
+        pairing: "純飲、黑巧克力松露、碳烤熟成和牛",
+        price: "NT$ 12,800",
+        imageUrl: "",
+        date: "2024-09-12"
+      },
+      {
+        id: "vault-whisky-02",
+        name: "Lagavulin 16 Years Old Single Malt",
+        vintage: "16年",
+        type: "威士忌",
+        region: "Islay, Scotland",
+        grape: "重度泥煤煙燻麥芽 · 二次填充波本橡木桶",
+        abv: "43.0%",
+        batch: "Classic Malts of Scotland",
+        rating: 5,
+        sweetness: 3,
+        acidity: 5, // Peat = 5 (Heavy Peat)
+        tannin: 4,  // Spice = 4
+        body: 4,    // Body = 4
+        finish: 5,  // Finish = 5
+        tags: ["泥煤煙燻", "艾雷海鹽", "石楠花蜜", "營火灰燼", "煙草皮革"],
+        wineryStory: "位於艾雷島南端的樂加維林蒸餾廠創立於1816年，採用極度緩慢的梨形蒸餾器蒸餾，賦予原酒強大深沉的泥煤煙燻與海洋碘鹽風格，被譽為艾雷島的王者之酒。",
+        notes: "濃厚的泥煤炭火、海風鹹香與海藻氣息迎面而來，隨後浮現成熟無花果與蜜餞的深層甘甜。口感極為扎實，泥煤與甜麥芽交織，餘韻極為悠長持久。",
+        pairing: "現開藍鑽生蠔、斯提爾頓藍紋乳酪",
+        price: "NT$ 3,200",
+        imageUrl: "",
+        date: "2024-08-20"
+      },
+      {
+        id: "vault-whisky-03",
+        name: "Kavalan Solist Vinho Barrique",
+        vintage: "單桶原酒",
+        type: "威士忌",
+        region: "Yilan, Taiwan",
+        grape: "STR 燒烤葡萄酒桶 (Shave, Toast, Re-char)",
+        abv: "57.8%",
+        batch: "Cask #W110415038A",
+        rating: 5,
+        sweetness: 4,
+        acidity: 1, // Peat = 1
+        tannin: 4,  // Spice = 4
+        body: 5,    // Body = 5
+        finish: 5,  // Finish = 5
+        tags: ["焦糖太妃", "熱帶鳳梨", "香草", "黑巧克力", "成熟無花果"],
+        wineryStory: "噶瑪蘭運用亞熱帶獨特氣候與雪山山脈純淨水源，並採用威士忌大師 Jim Swan 首創的 STR 專利手工刨桶、烘烤與重度燒烤技術，榮獲世界威士忌競賽 WWA 全球最佳單一麥芽大獎。",
+        notes: "深秋金黃色澤。奔放的甜瓜、奇異果與熱帶水果芳香四溢。入口原桶強度力量十足，伴隨杏仁黑巧克力的醇厚滑潤感，尾韻充滿香草太妃與橡木馨香。",
+        pairing: "炙燒烏魚子、厚切肋眼牛排",
+        price: "NT$ 3,500",
+        imageUrl: "",
+        date: "2024-07-15"
+      },
+      {
+        id: "vault-wine-01",
+        name: "Château Pontet-Canet 2016",
+        vintage: "2016",
+        type: "紅酒",
+        region: "Pauillac, Bordeaux, France",
+        grape: "Cabernet Sauvignon, Merlot, Cabernet Franc",
+        abv: "14.5%",
+        batch: "Grand Cru Classé 1855",
+        rating: 5,
+        sweetness: 1,
+        acidity: 4,
+        tannin: 5,
+        body: 5,
+        finish: 5,
+        tags: ["黑醋栗", "黑櫻桃", "雪松木", "黑巧克力", "黑胡椒"],
+        wineryStory: "波雅克五級名莊的傳奇名作，全面推行生物動力法耕作並引進馬匹犁田，純淨展現梅多克深厚石礫風土與緊緻單寧架構。",
+        notes: "深沉紅寶石色。開瓶散發高雅黑醋栗、石墨與雪松香氣，單寧如天鵝絨般緊密細緻，酸度鮮活明亮，陳年潛力極佳。",
+        pairing: "炭烤羊排、熟成牛排",
+        price: "NT$ 5,200",
+        imageUrl: "",
+        date: "2024-05-30"
+      }
+    ];
+
+    function loadNotes() {
+      try {
+        const stored = localStorage.getItem(STORAGE_KEY);
+        if (stored) {
+          wineNotes = JSON.parse(stored);
+        } else {
+          wineNotes = [...INITIAL_SAMPLES];
+          saveNotesToStorage();
+        }
+      } catch (e) {
+        console.error("讀取本地筆記失敗，載入預設資料", e);
+        wineNotes = [...INITIAL_SAMPLES];
+      }
+      renderCategoryFilter();
+      renderNotes();
+    }
+
+    function saveNotesToStorage() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(wineNotes));
+      } catch (e) {
+        console.error("儲存筆記至 localStorage 失敗", e);
+        showToast("儲存空間受限，請減少大圖數量", "⚠️");
+      }
+    }
+
+    function renderCategoryFilter() {
+      const container = document.getElementById("categoryFilterContainer");
+      if (!container) return;
+
+      container.innerHTML = CATEGORIES.map(cat => {
+        const isActive = currentCategory === cat;
+        const activeClass = isActive 
+          ? "bg-amber-500 text-stone-950 font-bold border-amber-400 shadow-md shadow-amber-950" 
+          : "bg-vault-850 hover:bg-vault-800 text-stone-400 hover:text-stone-200 border-vault-700";
+        return `
+          <button 
+            type="button" 
+            onclick="setCategory('${cat}')" 
+            class="px-3.5 py-1.5 rounded-full text-xs whitespace-nowrap transition-all border ${activeClass}"
+          >
+            ${cat === '威士忌' ? '🥃 ' : ''}${cat}
+          </button>
+        `;
+      }).join('');
+    }
+
+    function setCategory(cat) {
+      currentCategory = cat;
+      renderCategoryFilter();
+      renderNotes();
+    }
+
+    function handleSearch(val) {
+      searchQuery = val.trim().toLowerCase();
+      renderNotes();
+    }
+
+    function handleWineTypeChange(type) {
+      const isWhisky = type === "威士忌";
+
+      // Toggle whisky extra fields (ABV & Batch)
+      const whiskyFields = document.getElementById("whiskyExtraFields");
+      if (whiskyFields) {
+        whiskyFields.style.display = isWhisky ? "grid" : "none";
+      }
+
+      // Update form field labels
+      const lblRegion = document.getElementById("lblRegion");
+      if (lblRegion) lblRegion.innerText = isWhisky ? "蒸餾廠 / 產區 (Distillery)" : "產區 / 酒莊 (Region)";
+      
+      const lblGrape = document.getElementById("lblGrape");
+      if (lblGrape) lblGrape.innerText = isWhisky ? "用桶類型 / 熟成工藝 (Cask Type)" : "葡萄品種 (Grape Varietal)";
+
+      const lblStory = document.getElementById("lblStory");
+      if (lblStory) lblStory.innerText = isWhisky ? "蒸餾廠歷史與用桶工藝簡介" : "酒莊故事與風土背景簡介";
+
+      // Update sensory title and badge
+      const badge = document.getElementById("sensoryModeBadge");
+      if (badge) {
+        if (isWhisky) {
+          badge.innerText = "🥃 威士忌品鑑專屬模式";
+          badge.className = "text-[10px] font-semibold text-amber-300 bg-amber-500/15 px-2.5 py-0.5 rounded-full border border-amber-500/40";
+        } else {
+          badge.innerText = "🍷 葡萄酒品鑑模式";
+          badge.className = "text-[10px] font-semibold text-rose-300 bg-rose-500/15 px-2.5 py-0.5 rounded-full border border-rose-500/40";
+        }
+      }
+
+      // Update slider titles and descriptors
+      const s1Title = document.getElementById("s1Title");
+      const s1Min = document.getElementById("s1DescMin");
+      const s1Mid = document.getElementById("s1DescMid");
+      const s1Max = document.getElementById("s1DescMax");
+
+      const s2Title = document.getElementById("s2Title");
+      const s2Min = document.getElementById("s2DescMin");
+      const s2Mid = document.getElementById("s2DescMid");
+      const s2Max = document.getElementById("s2DescMax");
+
+      const s3Title = document.getElementById("s3Title");
+      const s3Min = document.getElementById("s3DescMin");
+      const s3Mid = document.getElementById("s3DescMid");
+      const s3Max = document.getElementById("s3DescMax");
+
+      const s4Title = document.getElementById("s4Title");
+      const s4Min = document.getElementById("s4DescMin");
+      const s4Mid = document.getElementById("s4DescMid");
+      const s4Max = document.getElementById("s4DescMax");
+
+      if (isWhisky) {
+        if (s1Title) s1Title.innerText = "甜潤感 / 麥芽甜 (Sweetness & Malt)";
+        if (s1Min) s1Min.innerText = "極乾 / 清冽 Dry";
+        if (s1Mid) s1Mid.innerText = "適中平衡 Balanced";
+        if (s1Max) s1Max.innerText = "濃郁甘甜 Rich Sweet";
+
+        if (s2Title) s2Title.innerText = "泥煤 / 煙燻度 (Peat & Smoke)";
+        if (s2Min) s2Min.innerText = "無泥煤 Unpeated";
+        if (s2Mid) s2Mid.innerText = "中度煙燻 Medium Peat";
+        if (s2Max) s2Max.innerText = "重度泥煤 Heavy Peat";
+
+        if (s3Title) s3Title.innerText = "辛香感 / 酒精衝擊 (Spice & Kick)";
+        if (s3Min) s3Min.innerText = "絲滑溫和 Smooth";
+        if (s3Mid) s3Mid.innerText = "微辛溫暖 Warming";
+        if (s3Max) s3Max.innerText = "辛香強勁 Bold & Punchy";
+
+        if (s4Title) s4Title.innerText = "油脂感 / 酒體厚度 (Mouthfeel & Body)";
+        if (s4Min) s4Min.innerText = "輕盈爽口 Light";
+        if (s4Mid) s4Mid.innerText = "飽滿適中 Medium";
+        if (s4Max) s4Max.innerText = "油潤醇厚 Rich & Oily";
+      } else {
+        if (s1Title) s1Title.innerText = "甜度 (Sweetness)";
+        if (s1Min) s1Min.innerText = "極乾 Dry";
+        if (s1Mid) s1Mid.innerText = "半甜 Off-Dry";
+        if (s1Max) s1Max.innerText = "甜 Sweet";
+
+        if (s2Title) s2Title.innerText = "酸度 (Acidity)";
+        if (s2Min) s2Min.innerText = "柔和 Low";
+        if (s2Mid) s2Mid.innerText = "適中 Med";
+        if (s2Max) s2Max.innerText = "明亮脆爽 High";
+
+        if (s3Title) s3Title.innerText = "單寧澀度 (Tannin)";
+        if (s3Min) s3Min.innerText = "細滑柔順 Low";
+        if (s3Mid) s3Mid.innerText = "扎實均衡 Med";
+        if (s3Max) s3Max.innerText = "強勁緊緻 High";
+
+        if (s4Title) s4Title.innerText = "酒體厚度 (Body)";
+        if (s4Min) s4Min.innerText = "清盈爽口 Light";
+        if (s4Mid) s4Mid.innerText = "中等適中 Medium";
+        if (s4Max) s4Max.innerText = "厚實飽滿 Full";
+      }
+
+      renderTagSelector();
+    }
+
+    function handlePhotoUpload(event) {
+      const file = event.target.files?.[0];
+      if (!file) return;
+
+      if (!file.type.startsWith('image/')) {
+        showToast("請選擇圖片格式檔案！", "⚠️");
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const img = new Image();
+        img.onload = function() {
+          // Client-side downscaling to keep localStorage lean and ultra-responsive
+          const canvas = document.createElement('canvas');
+          const maxDim = 800;
+          let width = img.width;
+          let height = img.height;
+
+          if (width > height && width > maxDim) {
+            height = Math.round((height * maxDim) / width);
+            width = maxDim;
+          } else if (height > maxDim) {
+            width = Math.round((width * maxDim) / height);
+            height = maxDim;
+          }
+
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+
+          // Get compressed Base64 JPEG
+          currentPhotoUrl = canvas.toDataURL('image/jpeg', 0.80);
+          displayPhotoPreview(currentPhotoUrl, "📷 本機/拍照上傳照片");
+          showToast("相片已成功載入！", "📷");
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+      event.target.value = '';
+    }
+
+    function displayPhotoPreview(url, label = "已綁定照片") {
+      const container = document.getElementById("imagePreviewContainer");
+      const img = document.getElementById("winePhotoPreview");
+      const labelEl = document.getElementById("photoStatusLabel");
+      if (url) {
+        img.src = url;
+        if (labelEl) labelEl.innerText = label;
+        container.classList.remove("hidden");
+      } else {
+        img.src = "";
+        container.classList.add("hidden");
+      }
+    }
+
+    function removeWinePhoto() {
+      currentPhotoUrl = "";
+      displayPhotoPreview("");
+      showToast("已移除目前照片", "🗑️");
+    }
+
+    function renderTagSelector() {
+      const container = document.getElementById("flavorTagSelector");
+      const countEl = document.getElementById("selectedTagCount");
+      if (countEl) countEl.innerText = selectedTags.size;
+      if (!container) return;
+
+      const currentType = document.getElementById("wineType")?.value || "威士忌";
+      const tagsList = currentType === "威士忌" ? WHISKY_FLAVOR_TAGS : WINE_FLAVOR_TAGS;
+
+      container.innerHTML = tagsList.map(tag => {
+        const isSelected = selectedTags.has(tag);
+        const classes = isSelected 
+          ? "bg-amber-500 text-stone-950 font-semibold border-amber-400 shadow-sm" 
+          : "bg-vault-800 hover:bg-vault-750 text-stone-300 border-vault-700";
+        return `<button type="button" onclick="toggleTag('${tag}')" class="px-2.5 py-1 rounded-lg text-xs border transition-all ${classes}">${tag}</button>`;
+      }).join('');
+    }
+
+    function toggleTag(tag) {
+      if (selectedTags.has(tag)) {
+        selectedTags.delete(tag);
+      } else {
+        selectedTags.add(tag);
+      }
+      renderTagSelector();
+    }
+
+    function renderStarRatingInput() {
+      const container = document.getElementById("starRatingInput");
+      if (!container) return;
+
+      container.innerHTML = [1, 2, 3, 4, 5].map(star => {
+        const filled = star <= selectedRating;
+        return `<span onclick="setRating(${star})" class="transition-transform hover:scale-125 ${filled ? 'text-amber-400' : 'text-stone-600'}">★</span>`;
+      }).join('');
+    }
+
+    function setRating(rating) {
+      selectedRating = rating;
+      renderStarRatingInput();
+    }
+
+    function setSliderVal(id, val) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.value = val;
+      if (id === 'wineSweetness') document.getElementById('sweetnessVal').innerText = val;
+      if (id === 'wineAcidity') document.getElementById('acidityVal').innerText = val;
+      if (id === 'wineTannin') document.getElementById('tanninVal').innerText = val;
+      if (id === 'wineBody') document.getElementById('bodyVal').innerText = val;
+      if (id === 'wineFinish') document.getElementById('finishVal').innerText = val;
+    }
+
+    async function fetchWithRetry(url, options, maxRetries = 3) {
+      let delay = 1000;
+      for (let i = 0; i < maxRetries; i++) {
+        try {
+          const res = await fetch(url, options);
+          if (!res.ok && res.status >= 500) {
+            throw new Error(`Server error: ${res.status}`);
+          }
+          return res;
+        } catch (err) {
+          if (i === maxRetries - 1) throw err;
+          await new Promise(r => setTimeout(r, delay));
+          delay *= 2;
+        }
+      }
+    }
+
+    async function enrichWineDetailsWithAI() {
+      const wineName = document.getElementById("wineName").value.trim();
+      if (!wineName) {
+        showToast("請先輸入酒款名稱以供 AI 搜尋！", "⚠️");
+        document.getElementById("wineName").focus();
+        return;
+      }
+
+      const spinner = document.getElementById("aiEnrichSpinner");
+      const btnText = document.getElementById("aiEnrichText");
+      const btn = document.getElementById("btnAiEnrich");
+      spinner.classList.remove("hidden");
+      btnText.innerText = "聯網查核中...";
+      btn.disabled = true;
+
+      const currentType = document.getElementById("wineType").value;
+      const userVintage = document.getElementById("wineVintage").value.trim();
+      const isWhisky = currentType === "威士忌";
+
+      const queryPrompt = isWhisky ? 
+`請詳細搜尋並分析這款威士忌的真實資訊：「${wineName} ${userVintage ? '年份 ' + userVintage : ''}」。
+請回傳一段純粹的 JSON 物件，不要有 markdown 包裹，格式必須如下：
+{
+  "type": "威士忌",
+  "vintage": "${userVintage || '年份標示（如 12年、18年或 NAS）'}",
+  "region": "蒸餾廠名稱與蘇格蘭產區或產國（例如 Speyside, Scotland 或 Kavalan, Taiwan）",
+  "grape": "用桶熟成工藝（如 Oloroso Sherry Cask、Ex-Bourbon 或 Rum Finish）",
+  "abv": "酒精度 %（例如 43% 或 58.2%）",
+  "wineryStory": "包含蒸餾廠歷史創立背景、水源風土、蒸餾工藝與過桶熟成特色的繁體中文介紹（約 80-120 字）",
+  "flavorProfile": "官方典型聞香、品飲口感與尾韻特徵描述（約 50-80 字）",
+  "pairing": "經典品飲搭配（例如 純飲、佐烏魚子、藍紋起司或堅果黑巧克力）",
+  "estimatedScores": {
+    "sweetness": 4,
+    "acidity": 1,
+    "tannin": 3,
+    "body": 4,
+    "finish": 4
+  },
+  "suggestedTags": ["香草", "焦糖太妃", "波本橡木"]
+}
+注意：acidity 代表泥煤煙燻度(1=無泥煤, 5=重度泥煤)；tannin 代表辛香感與酒精衝擊(1=圓潤, 5=強勁辛辣)；sweetness 代表麥芽甜潤感(1-5)；body 代表油脂酒體厚度(1-5)。
+請只從以下標籤列表挑選 3-6 個最吻合的標籤：
+[${WHISKY_FLAVOR_TAGS.map(t => `"${t}"`).join(', ')}]`
+      :
+`請詳細搜尋並分析這款酒的真實資訊：「${wineName} ${userVintage ? '年份 ' + userVintage : ''}」。
+請回傳一段純粹的 JSON 物件，不要有 markdown 包裹，格式必須如下：
+{
+  "type": "紅酒",
+  "vintage": "${userVintage || '年份，若無則留空'}",
+  "region": "產區與酒莊國家（例如 Pauillac, Bordeaux, France）",
+  "grape": "葡萄品種或原料",
+  "abv": "酒精度 %",
+  "wineryStory": "包含酒莊歷史由來、風土釀造哲理或代表性特徵的完整繁體中文介紹（約 80-120 字）",
+  "flavorProfile": "官方典型香氣與口感特色簡介（約 50-80 字）",
+  "pairing": "經典佐餐推薦（例如 肋眼牛排、陳年起司）",
+  "estimatedScores": {
+    "sweetness": 1,
+    "acidity": 4,
+    "tannin": 4,
+    "body": 4,
+    "finish": 4
+  },
+  "suggestedTags": ["黑醋栗", "雪松木", "法國橡木"]
+}
+請只從以下標籤列表挑選 3-6 個最吻合的標籤：
+[${WINE_FLAVOR_TAGS.map(t => `"${t}"`).join(', ')}]`;
+
+      try {
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${API_KEY}`;
+        const payload = {
+          contents: [{ parts: [{ text: queryPrompt }] }],
+          tools: [{ "google_search": {} }],
+          systemInstruction: {
+            parts: [{ text: "你是一位精通蘇格蘭威士忌與國際葡萄酒的資深品酒大師（Master of Malt & Sommelier）。請使用繁體中文，透過 Google 搜尋最新酒品事實，提供極具專業質感的背景與用桶工藝。" }]
+          }
+        };
+
+        const res = await fetchWithRetry(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        const result = await res.json();
+        const candidate = result.candidates?.[0];
+        const rawText = candidate?.content?.parts?.[0]?.text;
+
+        if (!rawText) throw new Error("無法取得 AI 回應");
+
+        const cleanedJson = rawText.replace(/```json/gi, '').replace(/```/g, '').trim();
+        const data = JSON.parse(cleanedJson);
+
+        if (data.type) {
+          document.getElementById("wineType").value = data.type;
+          handleWineTypeChange(data.type);
+        }
+        if (data.vintage && !userVintage) document.getElementById("wineVintage").value = data.vintage;
+        if (data.region) document.getElementById("wineRegion").value = data.region;
+        if (data.grape) document.getElementById("wineGrape").value = data.grape;
+        if (data.abv) {
+          const abvInput = document.getElementById("wineAbv");
+          if (abvInput) abvInput.value = data.abv;
+        }
+        if (data.wineryStory) document.getElementById("wineryStory").value = data.wineryStory;
+        if (data.flavorProfile && !document.getElementById("wineNotes").value.trim()) {
+          document.getElementById("wineNotes").value = data.flavorProfile;
+        }
+        if (data.pairing) document.getElementById("winePairing").value = data.pairing;
+
+        // Populate sensory scores
+        if (data.estimatedScores) {
+          if (data.estimatedScores.sweetness) setSliderVal("wineSweetness", data.estimatedScores.sweetness);
+          if (data.estimatedScores.acidity) setSliderVal("wineAcidity", data.estimatedScores.acidity);
+          if (data.estimatedScores.tannin) setSliderVal("wineTannin", data.estimatedScores.tannin);
+          if (data.estimatedScores.body) setSliderVal("wineBody", data.estimatedScores.body);
+          if (data.estimatedScores.finish) setSliderVal("wineFinish", data.estimatedScores.finish);
+        }
+
+        // Tags
+        const availableTags = (data.type === "威士忌" || isWhisky) ? WHISKY_FLAVOR_TAGS : WINE_FLAVOR_TAGS;
+        if (Array.isArray(data.suggestedTags)) {
+          data.suggestedTags.forEach(t => {
+            if (availableTags.includes(t)) selectedTags.add(t);
+          });
+          renderTagSelector();
+        }
+
+        // Citations
+        currentSources = [];
+        const groundingMetadata = candidate.groundingMetadata;
+        if (groundingMetadata && groundingMetadata.groundingAttributions) {
+          currentSources = groundingMetadata.groundingAttributions
+            .map(att => ({ uri: att.web?.uri, title: att.web?.title }))
+            .filter(s => s.uri && s.title);
+        }
+        renderSources();
+
+        showToast("已成功載入酒款與酒廠鑑賞資料！", "✨");
+      } catch (err) {
+        console.error("AI 查詢失敗", err);
+        showToast("AI 搜尋解析失敗，請手動填寫或稍候重試", "⚠️");
+      } finally {
+        spinner.classList.add("hidden");
+        btnText.innerText = "🌐 聯網查酒廠";
+        btn.disabled = false;
+      }
+    }
+
+    async function generateWinePhoto() {
+      const wineName = document.getElementById("wineName").value.trim();
+      if (!wineName) {
+        showToast("請先輸入酒款名稱再生成照片！", "⚠️");
+        document.getElementById("wineName").focus();
+        return;
+      }
+
+      const spinner = document.getElementById("aiImageSpinner");
+      const btnText = document.getElementById("aiImageText");
+      const btn = document.getElementById("btnAiImage");
+      spinner.classList.remove("hidden");
+      btnText.innerText = "生成寫真中...";
+      btn.disabled = true;
+
+      const wineType = document.getElementById("wineType").value;
+      const wineRegion = document.getElementById("wineRegion").value.trim();
+      const vintage = document.getElementById("wineVintage").value.trim();
+      const isWhisky = wineType === "威士忌";
+
+      const imagePrompt = isWhisky ?
+        `A high-end editorial commercial photograph of a bottle of ${wineName} ${vintage ? vintage : ''} single malt whisky, produced in ${wineRegion || 'Scotland'}. The bottle stands majestically on a rustic dark oak distillery barrel inside a dim, candlelit speakeasy whisky bar, beside a heavy crystal Glencairn tasting glass filled with glowing golden amber whisky liquid. Atmospheric cinematic lighting, moody cask cellar ambiance, subtle reflections, ultra realistic 4k sommelier magazine quality.` :
+        `A high-end editorial commercial studio photograph of a bottle of ${wineName} ${vintage ? vintage : ''} (${wineType}), produced in ${wineRegion || 'celebrated wine region'}. The bottle stands majestically on a dark mahogany cellar tasting counter beside an elegant crystal tasting glass filled with ruby liquid. Warm atmospheric cinematic candle lighting, subtle cellar reflections, ultra realistic 4k sommelier magazine quality.`;
+
+      try {
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-image:generateContent?key=${API_KEY}`;
+        const payload = {
+          contents: [{
+            role: 'user',
+            parts: [{ text: imagePrompt }]
+          }],
+          generationConfig: {
+            responseModalities: ['IMAGE'],
+            imageConfig: { aspectRatio: "3:4" }
+          }
+        };
+
+        const res = await fetchWithRetry(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        const result = await res.json();
+        const part = result?.candidates?.[0]?.content?.parts?.find(p => p.inlineData);
+
+        if (!part || !part.inlineData) {
+          throw new Error("無法解析圖像回應");
+        }
+
+        currentPhotoUrl = `data:${part.inlineData.mimeType};base64,${part.inlineData.data}`;
+        displayPhotoPreview(currentPhotoUrl, "🎨 AI 生成質感照片");
+        showToast(isWhisky ? "威士忌酒窖寫真已生成！" : "酒瓶質感照片生成完成！", "📸");
+      } catch (err) {
+        console.error("生成照片失敗", err);
+        showToast("照片生成失敗，請稍候重試", "⚠️");
+      } finally {
+        spinner.classList.add("hidden");
+        btnText.innerText = "🎨 AI 生成照片";
+        btn.disabled = false;
+      }
+    }
+
+    function renderSources() {
+      const area = document.getElementById("aiSourcesArea");
+      const list = document.getElementById("aiSourcesList");
+      if (currentSources && currentSources.length > 0) {
+        area.classList.remove("hidden");
+        list.innerHTML = currentSources.slice(0, 3).map((s, idx) => 
+          `<a href="${escapeHtml(s.uri)}" target="_blank" rel="noopener noreferrer" class="text-amber-400 underline truncate max-w-[120px] inline-block align-bottom">[來源${idx+1}: ${escapeHtml(s.title || '網頁')}]</a>`
+        ).join(' ');
+      } else {
+        area.classList.add("hidden");
+        list.innerHTML = "";
+      }
+    }
+
+    function renderNotes() {
+      const grid = document.getElementById("notesGrid");
+      const emptyState = document.getElementById("emptyState");
+
+      // Filter by Category and Search Query
+      const filtered = wineNotes.filter(item => {
+        const matchCategory = (currentCategory === "全部") || (item.type === currentCategory);
+        const matchSearch = !searchQuery || 
+          item.name.toLowerCase().includes(searchQuery) ||
+          (item.region && item.region.toLowerCase().includes(searchQuery)) ||
+          (item.grape && item.grape.toLowerCase().includes(searchQuery)) ||
+          (item.wineryStory && item.wineryStory.toLowerCase().includes(searchQuery)) ||
+          (item.tags && item.tags.some(t => t.toLowerCase().includes(searchQuery))) ||
+          (item.notes && item.notes.toLowerCase().includes(searchQuery)) ||
+          (item.abv && item.abv.toLowerCase().includes(searchQuery)) ||
+          (item.batch && item.batch.toLowerCase().includes(searchQuery));
+        return matchCategory && matchSearch;
+      });
+
+      document.getElementById("noteCountBadge").innerText = `共 ${filtered.length} 款鑑賞紀錄`;
+
+      if (filtered.length === 0) {
+        grid.innerHTML = "";
+        emptyState.classList.remove("hidden");
+        return;
+      }
+      emptyState.classList.add("hidden");
+
+      grid.innerHTML = filtered.map(item => {
+        const isWhisky = item.type === "威士忌";
+        const stars = Array.from({length: 5}, (_, i) => 
+          `<span class="${i < item.rating ? 'text-amber-400' : 'text-stone-700'}">★</span>`
+        ).join('');
+
+        // Badge styling
+        let badgeColor = isWhisky 
+          ? "bg-amber-500/15 text-amber-300 border-amber-500/40" 
+          : "bg-vault-800 text-stone-300 border-vault-700";
+
+        // Tags pills
+        const tagsHtml = (item.tags || []).map(t => 
+          `<span class="bg-vault-850 text-stone-300 px-2 py-0.5 rounded-md text-[10px] font-normal border border-vault-750">${escapeHtml(t)}</span>`
+        ).join('');
+
+        // Photo card header
+        const photoHtml = item.imageUrl ? `
+          <div class="relative w-full h-44 rounded-xl overflow-hidden mb-3.5 bg-vault-950 border border-vault-800 shadow-inner group">
+            <img src="${item.imageUrl}" alt="${escapeHtml(item.name)}" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500">
+            <div class="absolute inset-0 bg-gradient-to-t from-vault-950 via-transparent to-transparent"></div>
+            <span class="absolute bottom-2 right-2 text-[10px] bg-black/75 text-amber-300/90 px-2 py-0.5 rounded backdrop-blur-md font-mono border border-amber-500/20">
+              ${isWhisky ? '🥃 SINGLE CASK / MALT' : '🍷 CELLAR SELECTION'}
+            </span>
+          </div>
+        ` : '';
+
+        // Sensory labels
+        const s1Label = isWhisky ? "甜潤" : "甜度";
+        const s2Label = isWhisky ? "泥煤" : "酸度";
+        const s3Label = isWhisky ? "辛香" : "單寧";
+        const s4Label = isWhisky ? "油脂" : "酒體";
+        const s5Label = isWhisky ? "餘韻" : "餘韻";
+
+        const barGradient = isWhisky ? "from-amber-600 to-amber-400" : "from-rose-600 to-rose-400";
+
+        return `
+          <div class="bg-vault-900/90 rounded-2xl p-4 shadow-xl border border-vault-750 hover:border-amber-500/40 transition-all duration-300 flex flex-col justify-between">
+            <div>
+              ${photoHtml}
+              <!-- Header info -->
+              <div class="flex items-start justify-between gap-2 mb-2">
+                <div class="flex flex-wrap items-center gap-1.5">
+                  <span class="inline-block px-2.5 py-0.5 text-[10px] rounded-md border font-medium ${badgeColor}">
+                    ${isWhisky ? '🥃 ' : ''}${item.type} ${item.vintage ? `· ${escapeHtml(item.vintage)}` : ''}
+                  </span>
+                  ${item.abv ? `<span class="bg-vault-800 text-amber-200/90 text-[10px] px-2 py-0.5 rounded-md border border-vault-700 font-mono">${escapeHtml(item.abv)}</span>` : ''}
+                  ${item.batch ? `<span class="bg-vault-850 text-stone-400 text-[10px] px-2 py-0.5 rounded-md border border-vault-750 font-mono truncate max-w-[120px]">${escapeHtml(item.batch)}</span>` : ''}
+                </div>
+                <div class="text-xs tracking-tight">${stars}</div>
+              </div>
+
+              <!-- Name & Region / Distillery -->
+              <h2 class="font-serif font-bold text-base text-amber-100 leading-snug line-clamp-1 mb-0.5">${escapeHtml(item.name)}</h2>
+              <p class="text-xs text-stone-400 mb-2.5 line-clamp-1">${escapeHtml(item.region || '未指定產區')} ${item.grape ? `· ${escapeHtml(item.grape)}` : ''}</p>
+
+              <!-- Story / Cask Background -->
+              ${item.wineryStory ? `
+                <div class="${isWhisky ? 'bg-amber-950/20 border-amber-500/20' : 'bg-vault-850 border-vault-750'} border rounded-xl p-2.5 mb-3">
+                  <div class="flex items-center space-x-1.5 text-[10px] font-bold ${isWhisky ? 'text-amber-300' : 'text-stone-300'} mb-1">
+                    <span>${isWhisky ? '🥃 蒸餾廠與熟成工藝' : '🏰 酒莊與風土背景'}</span>
+                  </div>
+                  <p class="text-[11px] text-stone-300 leading-relaxed line-clamp-2">${escapeHtml(item.wineryStory)}</p>
+                </div>
+              ` : ''}
+
+              <!-- 5-Dimensional Sensory Structure -->
+              <div class="grid grid-cols-5 gap-1.5 bg-vault-850/80 p-2.5 rounded-xl mb-3 text-center border border-vault-750">
+                <div>
+                  <div class="text-[10px] text-stone-400 font-medium">${s1Label}</div>
+                  <div class="font-bold text-xs text-amber-300 font-mono">${item.sweetness}</div>
+                  <div class="w-full bg-vault-750 h-1 rounded-full mt-1.5 overflow-hidden">
+                    <div class="bg-gradient-to-r ${barGradient} h-full" style="width: ${(item.sweetness/5)*100}%"></div>
+                  </div>
+                </div>
+                <div>
+                  <div class="text-[10px] text-stone-400 font-medium">${s2Label}</div>
+                  <div class="font-bold text-xs text-amber-300 font-mono">${item.acidity}</div>
+                  <div class="w-full bg-vault-750 h-1 rounded-full mt-1.5 overflow-hidden">
+                    <div class="bg-gradient-to-r ${barGradient} h-full" style="width: ${(item.acidity/5)*100}%"></div>
+                  </div>
+                </div>
+                <div>
+                  <div class="text-[10px] text-stone-400 font-medium">${s3Label}</div>
+                  <div class="font-bold text-xs text-amber-300 font-mono">${item.tannin}</div>
+                  <div class="w-full bg-vault-750 h-1 rounded-full mt-1.5 overflow-hidden">
+                    <div class="bg-gradient-to-r ${barGradient} h-full" style="width: ${(item.tannin/5)*100}%"></div>
+                  </div>
+                </div>
+                <div>
+                  <div class="text-[10px] text-stone-400 font-medium">${s4Label}</div>
+                  <div class="font-bold text-xs text-amber-300 font-mono">${item.body}</div>
+                  <div class="w-full bg-vault-750 h-1 rounded-full mt-1.5 overflow-hidden">
+                    <div class="bg-gradient-to-r ${barGradient} h-full" style="width: ${(item.body/5)*100}%"></div>
+                  </div>
+                </div>
+                <div>
+                  <div class="text-[10px] text-stone-400 font-medium">${s5Label}</div>
+                  <div class="font-bold text-xs text-amber-300 font-mono">${item.finish}</div>
+                  <div class="w-full bg-vault-750 h-1 rounded-full mt-1.5 overflow-hidden">
+                    <div class="bg-gradient-to-r ${barGradient} h-full" style="width: ${(item.finish/5)*100}%"></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Tags -->
+              <div class="flex flex-wrap gap-1 mb-2.5">
+                ${tagsHtml || '<span class="text-[10px] text-stone-500">未設定標籤</span>'}
+              </div>
+
+              <!-- Personal Notes -->
+              ${item.notes ? `
+                <p class="text-xs text-stone-300 line-clamp-2 bg-vault-850/60 p-2.5 rounded-lg italic border border-vault-800 mb-2">
+                  "${escapeHtml(item.notes)}"
+                </p>
+              ` : ''}
+            </div>
+
+            <!-- Footer Details & Actions -->
+            <div class="pt-2.5 border-t border-vault-750 flex items-center justify-between text-xs text-stone-400">
+              <span class="text-[11px] truncate max-w-[170px] text-amber-400/80">${item.pairing ? '🍽 ' + escapeHtml(item.pairing) : (item.price || item.date || '')}</span>
+              <div class="flex space-x-1">
+                <button onclick="editNote('${item.id}')" class="p-1.5 text-stone-400 hover:text-amber-300 hover:bg-vault-800 rounded-md transition" title="編輯">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
+                </button>
+                <button onclick="deleteNote('${item.id}')" class="p-1.5 text-stone-400 hover:text-red-400 hover:bg-vault-800 rounded-md transition" title="刪除">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function openNoteModal(isEdit = false) {
+      document.getElementById("noteModal").classList.remove("hidden");
+      document.body.style.overflow = "hidden";
+      if (!isEdit) {
+        document.getElementById("modalTitle").innerText = "記錄品飲筆記";
+        document.getElementById("editNoteId").value = "";
+        document.getElementById("wineName").value = "";
+        document.getElementById("wineType").value = "威士忌";
+        document.getElementById("wineVintage").value = "";
+        document.getElementById("wineRegion").value = "";
+        document.getElementById("wineGrape").value = "";
+        document.getElementById("wineryStory").value = "";
+        document.getElementById("wineNotes").value = "";
+        document.getElementById("winePairing").value = "";
+        document.getElementById("winePrice").value = "";
+        
+        const abvEl = document.getElementById("wineAbv");
+        if (abvEl) abvEl.value = "";
+        const batchEl = document.getElementById("wineBatch");
+        if (batchEl) batchEl.value = "";
+
+        // Reset sliders for Whisky mode
+        setSliderVal("wineSweetness", 3);
+        setSliderVal("wineAcidity", 1);
+        setSliderVal("wineTannin", 3);
+        setSliderVal("wineBody", 4);
+        setSliderVal("wineFinish", 4);
+
+        selectedRating = 5;
+        selectedTags.clear();
+        currentPhotoUrl = "";
+        currentSources = [];
+        displayPhotoPreview("");
+        renderSources();
+      }
+      handleWineTypeChange(document.getElementById("wineType").value);
+      renderStarRatingInput();
+      renderTagSelector();
+    }
+
+    function closeNoteModal() {
+      document.getElementById("noteModal").classList.add("hidden");
+      document.body.style.overflow = "";
+    }
+
+    function editNote(id) {
+      const note = wineNotes.find(n => n.id === id);
+      if (!note) return;
+
+      openNoteModal(true);
+      document.getElementById("modalTitle").innerText = "編輯品飲筆記";
+      document.getElementById("editNoteId").value = note.id;
+      document.getElementById("wineName").value = note.name || "";
+      document.getElementById("wineType").value = note.type || "威士忌";
+      document.getElementById("wineVintage").value = note.vintage || "";
+      document.getElementById("wineRegion").value = note.region || "";
+      document.getElementById("wineGrape").value = note.grape || "";
+      document.getElementById("wineryStory").value = note.wineryStory || "";
+      document.getElementById("wineNotes").value = note.notes || "";
+      document.getElementById("winePairing").value = note.pairing || "";
+      document.getElementById("winePrice").value = note.price || "";
+
+      const abvEl = document.getElementById("wineAbv");
+      if (abvEl) abvEl.value = note.abv || "";
+      const batchEl = document.getElementById("wineBatch");
+      if (batchEl) batchEl.value = note.batch || "";
+
+      setSliderVal("wineSweetness", note.sweetness || 3);
+      setSliderVal("wineAcidity", note.acidity || 1);
+      setSliderVal("wineTannin", note.tannin || 3);
+      setSliderVal("wineBody", note.body || 3);
+      setSliderVal("wineFinish", note.finish || 3);
+
+      selectedRating = note.rating || 5;
+      selectedTags = new Set(note.tags || []);
+      currentPhotoUrl = note.imageUrl || "";
+      displayPhotoPreview(currentPhotoUrl, "現有酒款照片");
+      handleWineTypeChange(note.type || "威士忌");
+      renderStarRatingInput();
+      renderTagSelector();
+    }
+
+    function saveWineNote() {
+      const name = document.getElementById("wineName").value.trim();
+      if (!name) {
+        showToast("請填寫酒款名稱！", "⚠️");
+        document.getElementById("wineName").focus();
+        return;
+      }
+
+      const editId = document.getElementById("editNoteId").value;
+      const type = document.getElementById("wineType").value;
+      const noteData = {
+        id: editId || 'vault_' + Date.now(),
+        name: name,
+        type: type,
+        vintage: document.getElementById("wineVintage").value.trim(),
+        region: document.getElementById("wineRegion").value.trim(),
+        grape: document.getElementById("wineGrape").value.trim(),
+        abv: document.getElementById("wineAbv")?.value.trim() || "",
+        batch: document.getElementById("wineBatch")?.value.trim() || "",
+        wineryStory: document.getElementById("wineryStory").value.trim(),
+        rating: selectedRating,
+        sweetness: parseInt(document.getElementById("wineSweetness").value, 10),
+        acidity: parseInt(document.getElementById("wineAcidity").value, 10),
+        tannin: parseInt(document.getElementById("wineTannin").value, 10),
+        body: parseInt(document.getElementById("wineBody").value, 10),
+        finish: parseInt(document.getElementById("wineFinish").value, 10),
+        tags: Array.from(selectedTags),
+        notes: document.getElementById("wineNotes").value.trim(),
+        pairing: document.getElementById("winePairing").value.trim(),
+        price: document.getElementById("winePrice").value.trim(),
+        imageUrl: currentPhotoUrl || "",
+        date: new Date().toISOString().split('T')[0]
+      };
+
+      if (editId) {
+        const index = wineNotes.findIndex(n => n.id === editId);
+        if (index !== -1) {
+          wineNotes[index] = noteData;
+          showToast("筆記已更新", "✨");
+        }
+      } else {
+        wineNotes.unshift(noteData);
+        showToast(type === "威士忌" ? "威士忌品飲筆記已入庫 🥃" : "品酒筆記已成功儲存 🍷", "✨");
+      }
+
+      saveNotesToStorage();
+      closeNoteModal();
+      renderNotes();
+    }
+
+    function deleteNote(id) {
+      const note = wineNotes.find(n => n.id === id);
+      if (!note) return;
+
+      wineNotes = wineNotes.filter(n => n.id !== id);
+      saveNotesToStorage();
+      renderNotes();
+      showToast(`已自品飲庫中刪除「${note.name}」`, "🗑️");
+    }
+
+    function showToast(msg, icon = "🥃") {
+      const toast = document.getElementById("toast");
+      document.getElementById("toastIcon").innerText = icon;
+      document.getElementById("toastMessage").innerText = msg;
+      toast.classList.remove("opacity-0");
+      toast.classList.add("opacity-100");
+      setTimeout(() => {
+        toast.classList.remove("opacity-100");
+        toast.classList.add("opacity-0");
+      }, 2500);
+    }
+
+    function escapeHtml(text) {
+      if (!text) return '';
+      return String(text)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    function exportJSON() {
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(wineNotes, null, 2));
+      const downloadAnchor = document.createElement('a');
+      downloadAnchor.setAttribute("href", dataStr);
+      downloadAnchor.setAttribute("download", `the_glencairn_vault_${new Date().toISOString().split('T')[0]}.json`);
+      document.body.appendChild(downloadAnchor);
+      downloadAnchor.click();
+      downloadAnchor.remove();
+      showToast("已匯出 JSON 典藏備份", "📦");
+    }
+
+    function handleImportJSON(event) {
+      const file = event.target.files?.[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          const parsed = JSON.parse(e.target.result);
+          if (!Array.isArray(parsed)) {
+            showToast("備份檔案格式不正確（需為品飲陣列）", "⚠️");
+            return;
+          }
+
+          // Validate basic note structure
+          const validNotes = parsed.filter(item => item && typeof item === 'object' && item.name);
+          if (validNotes.length === 0) {
+            showToast("未在檔案中找到有效的品飲筆記", "⚠️");
+            return;
+          }
+
+          pendingImportNotes = validNotes;
+          document.getElementById("importFileInfo").innerText = `解析成功：共 ${validNotes.length} 篇品飲筆記`;
+          document.getElementById("importModal").classList.remove("hidden");
+        } catch (err) {
+          console.error("JSON 解析失敗", err);
+          showToast("無法解析此 JSON 檔案，請確認內容無損壞", "⚠️");
+        } finally {
+          event.target.value = '';
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    function closeImportModal() {
+      document.getElementById("importModal").classList.add("hidden");
+      pendingImportNotes = [];
+    }
+
+    function executeImport(mode) {
+      if (!pendingImportNotes || pendingImportNotes.length === 0) return;
+
+      if (mode === 'replace') {
+        wineNotes = [...pendingImportNotes];
+        showToast(`已覆蓋還原 ${wineNotes.length} 篇典藏筆記！`, "📥");
+      } else if (mode === 'merge') {
+        const existingIds = new Set(wineNotes.map(n => n.id));
+        let addedCount = 0;
+        let updatedCount = 0;
+
+        pendingImportNotes.forEach(incoming => {
+          if (existingIds.has(incoming.id)) {
+            // Update existing entry with newer backup content
+            const idx = wineNotes.findIndex(n => n.id === incoming.id);
+            if (idx !== -1) {
+              wineNotes[idx] = incoming;
+              updatedCount++;
+            }
+          } else {
+            // Generate unique id if missing and prepend
+            if (!incoming.id) incoming.id = 'vault_' + Date.now() + Math.random().toString(36).substr(2, 4);
+            wineNotes.unshift(incoming);
+            addedCount++;
+          }
+        });
+        showToast(`已合併匯入！(新增 ${addedCount} 筆、更新 ${updatedCount} 筆)`, "✨");
+      }
+
+      saveNotesToStorage();
+      closeImportModal();
+      renderNotes();
+    }
+
+    window.onload = function() {
+      loadNotes();
+    };
+  </script>
+</body>
+</html>
