@@ -1001,20 +1001,52 @@
       closeNoteModal();
     }
 
-    // JSON 匯出與匯入
-    function exportJSON() {
+    // =========================================================================
+    // 專為「加入主畫面 (PWA)」優化的多重匯出機制 (優先原生分享面板，備用下載/複製)
+    // =========================================================================
+    async function exportJSON() {
       if (notes.length === 0) {
         alert("目前尚無品飲筆記可匯出！");
         return;
       }
-      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(notes, null, 2));
-      const downloadAnchor = document.createElement('a');
+
       const date = new Date().toISOString().split('T')[0];
-      downloadAnchor.setAttribute("href", dataStr);
-      downloadAnchor.setAttribute("download", `GlobalTasting_Backup_${date}.json`);
-      document.body.appendChild(downloadAnchor);
-      downloadAnchor.click();
-      downloadAnchor.remove();
+      const filename = `GlobalTasting_Backup_${date}.json`;
+      const jsonContent = JSON.stringify(notes, null, 2);
+
+      // 1. 優先嘗試手機原生分享面板 (iOS / Android 主畫面模式最佳解)
+      if (navigator.share && navigator.canShare) {
+        try {
+          const file = new File([jsonContent], filename, { type: 'application/json' });
+          if (navigator.canShare({ files: [file] })) {
+            await navigator.share({
+              files: [file],
+              title: '全球社交品飲筆記備份',
+              text: `匯出於 ${date} 的品飲筆記`
+            });
+            return;
+          }
+        } catch (err) {
+          if (err.name === 'AbortError') return; // 使用者按取消不報錯
+          console.warn("原生分享未執行，改用備用方案", err);
+        }
+      }
+
+      // 2. 備用方案 A：傳統 Blob 下載 (電腦瀏覽器或一般分頁)
+      try {
+        const blob = new Blob([jsonContent], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      } catch (e) {
+        // 3. 備用方案 B：若沙盒完全封鎖下載，提供複製窗口
+        prompt("手機環境限制直接下載，請全選並複製以下備份文字保存到備忘錄：", jsonContent);
+      }
     }
 
     function handleImportFile(event) {
